@@ -1,0 +1,68 @@
+#include <Servo.h>
+Servo servo1;
+Servo servo2;
+
+int sensor1_pin = 0;
+int sensor2_pin = 1;
+
+
+
+void setup() {
+  Serial.begin(9600) ;
+  servo1.attach(7);
+  servo2.attach(8);
+}
+void loop() {
+int sensor1_value;
+int sensor1_value_tmp;
+int sensor2_value;
+int sensor2_value_tmp;
+servo1.write(95);
+servo2.write(95);
+
+sensor1_value = analogRead(sensor1_pin);
+sensor2_value = analogRead(sensor2_pin);
+
+
+Serial.println(sensor1_value); // シリアルモニターへ表示
+Serial.println(sensor2_value); // シリアルモニターへ表示
+
+
+if(sensor1_value > 130 && sensor2_value < 130){
+delay(1000);
+sensor2_value_tmp = analogRead(sensor2_pin);
+if(sensor2_value_tmp > 130){
+  delay(2000);
+  servo1.write(25);
+  delay(3000);
+  servo2.write(25);
+  delay(3000);
+
+  }
+
+}
+
+if(sensor1_value < 130 && sensor2_value > 130){
+delay(1000);
+sensor1_value_tmp = analogRead(sensor1_pin);
+if(sensor1_value_tmp > 130){
+  delay(2000);
+  servo2.write(25);
+  delay(3000);
+  servo1.write(25);
+  delay(3000);
+
+  }
+
+}
+
+if(sensor1_value > 130 && sensor2_value > 130){
+  servo1.write(25);
+  delay(3000);
+  servo2.write(25);
+  delay(3000);
+}
+
+delay(100);
+
+}
